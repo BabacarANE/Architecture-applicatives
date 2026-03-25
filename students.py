@@ -22,6 +22,25 @@ class Student:
         )
 
 
+def add_grade4(grade4_value: float):
+    """Décorateur de classe qui ajoute une 4ème matière à tous les étudiants."""
+    def decorator(cls):
+        original_init = cls.__init__
+
+        def new_init(self, name: str, grade1: float, grade2: float, grade3: float):
+            original_init(self, name, grade1, grade2, grade3)
+            self.grade4 = grade4_value
+
+        cls.__init__ = new_init
+        return cls
+    return decorator
+
+
+@add_grade4(0.0)
+class Student(Student):
+    pass
+
+
 class StudentIteratorMatter1(Iterator):
     """Itérateur qui parcourt les étudiants du meilleur au plus mauvais pour la matière 1."""
 
@@ -78,7 +97,7 @@ class SchoolClass(Iterable):
         self._students.append(student)
 
     def __iter__(self) -> StudentIteratorMatter1:
-        """Retourne un itérateur triant les étudiants par matière 1 (meilleur au plus mauvais)."""
+        """Retourne un itérateur triant les étudiants par matière 1."""
         return StudentIteratorMatter1(self._students)
 
     def iter_matter_2(self) -> StudentIteratorMatter2:
@@ -90,15 +109,12 @@ class SchoolClass(Iterable):
         return StudentIteratorMatter3(self._students)
 
     def rank_matter_1(self) -> list:
-        """Retourne les étudiants triés par ordre décroissant de la matière 1."""
         return sorted(self._students, key=lambda s: s.grade1, reverse=True)
 
     def rank_matter_2(self) -> list:
-        """Retourne les étudiants triés par ordre décroissant de la matière 2."""
         return sorted(self._students, key=lambda s: s.grade2, reverse=True)
 
     def rank_matter_3(self) -> list:
-        """Retourne les étudiants triés par ordre décroissant de la matière 3."""
         return sorted(self._students, key=lambda s: s.grade3, reverse=True)
 
     def __repr__(self):
@@ -111,7 +127,11 @@ if __name__ == "__main__":
     school_class.add_student(Student('A', 8, 2, 17))
     school_class.add_student(Student('V', 9, 14, 14))
 
-    print("=== Classement Matière 1 (via __iter__) ===")
+    print("=== Vérification grade4 ajouté par le décorateur ===")
+    for student in school_class:
+        print(f"{student.name} -> grade4={student.grade4}")
+
+    print("\n=== Classement Matière 1 (via __iter__) ===")
     for student in school_class:
         print(student)
 
