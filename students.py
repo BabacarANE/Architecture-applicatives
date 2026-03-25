@@ -86,6 +86,37 @@ class StudentIteratorMatter3(Iterator):
         return student
 
 
+# --- QUESTION 9 : Itérateur pour la matière 4 ---
+
+class StudentIteratorMatter4(Iterator):
+    """Itérateur qui parcourt les étudiants du meilleur au plus mauvais pour la matière 4."""
+
+    def __init__(self, students: list):
+        self._sorted_students = sorted(students, key=lambda s: s.grade4, reverse=True)
+        self._index = 0
+
+    def __next__(self) -> Student:
+        if self._index >= len(self._sorted_students):
+            raise StopIteration
+        student = self._sorted_students[self._index]
+        self._index += 1
+        return student
+
+
+def add_matter_iterator(iterator_class, method_name: str):
+    """Décorateur de classe qui injecte une méthode d'itération dans SchoolClass."""
+    def decorator(cls):
+        def iter_method(self):
+            return iterator_class(self._students)
+        setattr(cls, method_name, iter_method)
+        return cls
+    return decorator
+
+
+# --- Fin question 9 ---
+
+
+@add_matter_iterator(StudentIteratorMatter4, "iter_matter_4")
 class SchoolClass(Iterable):
     """Représente une classe d'étudiants."""
 
@@ -141,4 +172,8 @@ if __name__ == "__main__":
 
     print("\n=== Classement Matière 3 (via iter_matter_3) ===")
     for student in school_class.iter_matter_3():
+        print(student)
+
+    print("\n=== Classement Matière 4 (via iter_matter_4) ===")
+    for student in school_class.iter_matter_4():
         print(student)
