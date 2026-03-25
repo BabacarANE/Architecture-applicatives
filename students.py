@@ -1,5 +1,5 @@
 class Student:
-
+    
 
     def __init__(self, name: str, grade1: float, grade2: float, grade3: float):
         self.name = name
@@ -8,6 +8,7 @@ class Student:
         self.grade3 = grade3
 
     def average(self) -> float:
+        
         return (self.grade1 + self.grade2 + self.grade3) / 3
 
     def __repr__(self):
@@ -25,11 +26,15 @@ class SchoolClass:
         self._students: list[Student] = []
 
     def add_student(self, student: Student) -> None:
+        
         self._students.append(student)
+
+    def rank_matter_1(self) -> list:
+        
+        return sorted(self._students, key=lambda s: s.grade1, reverse=True)
 
     def __repr__(self):
         return f"SchoolClass({self._students!r})"
-
 
 
 if __name__ == "__main__":
@@ -38,4 +43,6 @@ if __name__ == "__main__":
     school_class.add_student(Student('A', 8, 2, 17))
     school_class.add_student(Student('V', 9, 14, 14))
 
-    print(school_class)
+    print("=== Classement Matière 1 ===")
+    for student in school_class.rank_matter_1():
+        print(student)
