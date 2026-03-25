@@ -86,8 +86,6 @@ class StudentIteratorMatter3(Iterator):
         return student
 
 
-# --- QUESTION 9 : Itérateur pour la matière 4 ---
-
 class StudentIteratorMatter4(Iterator):
     """Itérateur qui parcourt les étudiants du meilleur au plus mauvais pour la matière 4."""
 
@@ -113,12 +111,27 @@ def add_matter_iterator(iterator_class, method_name: str):
     return decorator
 
 
-# --- Fin question 9 ---
+# --- QUESTION 10 : Singleton ---
+
+def singleton(cls):
+    """Décorateur qui transforme une classe en Singleton."""
+    instances = {}
+
+    def get_instance(*args, **kwargs):
+        if cls not in instances:
+            instances[cls] = cls(*args, **kwargs)
+        return instances[cls]
+
+    return get_instance
 
 
+# --- Fin question 10 ---
+
+
+@singleton
 @add_matter_iterator(StudentIteratorMatter4, "iter_matter_4")
 class SchoolClass(Iterable):
-    """Représente une classe d'étudiants."""
+    """Représente une classe d'étudiants (instance unique — Singleton)."""
 
     def __init__(self):
         self._students: list[Student] = []
@@ -153,12 +166,17 @@ class SchoolClass(Iterable):
 
 
 if __name__ == "__main__":
+    # Vérification du Singleton : les deux variables pointent vers la même instance
     school_class = SchoolClass()
+    school_class2 = SchoolClass()
+    print("=== Vérification Singleton ===")
+    print(f"school_class is school_class2 : {school_class is school_class2}")
+
     school_class.add_student(Student('J', 10, 12, 13))
     school_class.add_student(Student('A', 8, 2, 17))
     school_class.add_student(Student('V', 9, 14, 14))
 
-    print("=== Vérification grade4 ajouté par le décorateur ===")
+    print("\n=== Vérification grade4 ajouté par le décorateur ===")
     for student in school_class:
         print(f"{student.name} -> grade4={student.grade4}")
 
