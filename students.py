@@ -1,5 +1,5 @@
 class Student:
-    """Représente un étudiant avec un nom et 3 notes dans 3 matières."""
+
 
     def __init__(self, name: str, grade1: float, grade2: float, grade3: float):
         self.name = name
@@ -8,7 +8,6 @@ class Student:
         self.grade3 = grade3
 
     def average(self) -> float:
-        """Calcule la moyenne des 3 matières."""
         return (self.grade1 + self.grade2 + self.grade3) / 3
 
     def __repr__(self):
@@ -20,17 +19,17 @@ class Student:
 
 
 class SchoolClass:
-    """Représente une classe d'étudiants."""
+    
 
     def __init__(self):
         self._students: list[Student] = []
 
     def add_student(self, student: Student) -> None:
-        """Ajoute un étudiant à la classe."""
         self._students.append(student)
 
     def __repr__(self):
         return f"SchoolClass({self._students!r})"
+
 
 
 if __name__ == "__main__":
