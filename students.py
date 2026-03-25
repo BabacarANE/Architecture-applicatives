@@ -33,6 +33,14 @@ class SchoolClass:
         
         return sorted(self._students, key=lambda s: s.grade1, reverse=True)
 
+    def rank_matter_2(self) -> list:
+        
+        return sorted(self._students, key=lambda s: s.grade2, reverse=True)
+
+    def rank_matter_3(self) -> list:
+        
+        return sorted(self._students, key=lambda s: s.grade3, reverse=True)
+
     def __repr__(self):
         return f"SchoolClass({self._students!r})"
 
@@ -45,4 +53,12 @@ if __name__ == "__main__":
 
     print("=== Classement Matière 1 ===")
     for student in school_class.rank_matter_1():
+        print(student)
+
+    print("\n=== Classement Matière 2 ===")
+    for student in school_class.rank_matter_2():
+        print(student)
+
+    print("\n=== Classement Matière 3 ===")
+    for student in school_class.rank_matter_3():
         print(student)
